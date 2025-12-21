@@ -5,9 +5,9 @@ import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
 import { cn } from "@/lib/utils"
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
-function Accordion({ className, collapsible, ...props }: AccordionPrimitive.Root.Props) {
+function Accordion({ className, collapsible, ...props }: any) {
   // Build props object, ensuring collapsible is only included when defined
-  const rootProps: AccordionPrimitive.Root.Props = {
+  const rootProps: any = {
     "data-slot": "accordion",
     className: cn("overflow-hidden rounded-md border flex w-full flex-col", className),
     ...props,

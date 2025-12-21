@@ -95,7 +95,7 @@ export default function UserLayout({
         <Sidebar variant="inset" className="border-r bg-background">
           <SidebarHeader className="p-4 border-b">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-sm">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-br from-primary to-primary/80 text-primary-foreground shadow-sm">
                 <User className="h-5 w-5" />
               </div>
               <div className="flex flex-col min-w-0 flex-1">
@@ -180,7 +180,7 @@ export default function UserLayout({
           </SidebarFooter>
         </Sidebar>
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 px-4">
             <SidebarTrigger className="-ml-1" />
             <div className="flex-1" />
           </header>

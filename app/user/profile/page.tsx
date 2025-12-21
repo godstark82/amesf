@@ -15,7 +15,7 @@ export default function UserProfilePage() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth!, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser)
         

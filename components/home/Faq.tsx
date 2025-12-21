@@ -23,7 +23,7 @@ export default function FaqSection() {
     <section className="bg-white py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <SectionHeader title="Frequently Asked Questions" />
-        <Accordion type="single" collapsible className="space-y-4">
+        <Accordion className="space-y-4">
           {FAQ_DATA.map(({ question, answer, answerItems }, idx) => (
             <AccordionItem key={idx} value={`faq-item-${idx}`} className="border border-gray-200 rounded-lg">
               <AccordionTrigger className="text-lg font-semibold px-6 py-4 hover:bg-gray-100 rounded-lg">
@@ -33,7 +33,7 @@ export default function FaqSection() {
                 {answer && <p>{answer}</p>}
                 {answerItems && (
                   <ul className="list-disc list-inside space-y-2">
-                    {answerItems.map((item, i) => (
+                    {answerItems.map((item: string, i: number) => (
                       <li key={i}>{item}</li>
                     ))}
                   </ul>

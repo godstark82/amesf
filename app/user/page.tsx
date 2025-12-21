@@ -15,7 +15,7 @@ export default function UserDashboardPage() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth!, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser)
         
@@ -96,7 +96,7 @@ export default function UserDashboardPage() {
             <User className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-sm">
+            <div className="text-2xl font-bold">
               {registration?.category ? registration.category.split('(')[0].trim() : 'N/A'}
             </div>
             <p className="text-xs text-muted-foreground">

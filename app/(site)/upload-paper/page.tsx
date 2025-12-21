@@ -173,7 +173,8 @@ export default function UploadPaperPage() {
     setErrors({ ...errors, [name]: error });
   };
 
-  const handleSelectChange = (name: string, value: string) => {
+  const handleSelectChange = (name: string, value: string | null) => {
+    if (value === null) return;
     setForm({ ...form, [name]: value });
     setTouched({ ...touched, [name]: true });
     const error = validateField(name, value);
@@ -696,7 +697,7 @@ export default function UploadPaperPage() {
                         aria-invalid={!!errors.category}
                         aria-describedby={errors.category ? "category-error" : undefined}
                       >
-                        <SelectValue placeholder="Select a category" />
+                        <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         {categoryTable.map(([cat]) => (
@@ -733,7 +734,7 @@ export default function UploadPaperPage() {
                         aria-invalid={!!errors.daysAttending}
                         aria-describedby={errors.daysAttending ? "daysAttending-error" : undefined}
                       >
-                        <SelectValue placeholder="Select days attending" />
+                        <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="day1">Day 1</SelectItem>

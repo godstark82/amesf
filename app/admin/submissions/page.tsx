@@ -84,7 +84,7 @@ export default function AdminSubmissionsPage() {
   const [updating, setUpdating] = useState(false)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined' || !auth) return
 
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -613,9 +613,9 @@ export default function AdminSubmissionsPage() {
             </div>
             <div>
               <Label htmlFor="status">Status *</Label>
-              <Select value={newStatus} onValueChange={setNewStatus}>
+              <Select value={newStatus} onValueChange={(value) => value && setNewStatus(value)}>
                 <SelectTrigger id="status">
-                  <SelectValue placeholder="Select status" />
+                  <SelectValue /> 
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="pending">

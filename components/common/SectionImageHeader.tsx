@@ -1,4 +1,4 @@
-export default function SectionImageHeader({ title, image }) {
+export default function SectionImageHeader({ title, image }: { title: string, image: string }) {
     return <>
         <div className="relative w-full h-56 flex items-center justify-center" style={{ background: `linear-gradient(rgba(35,35,53,0.75),rgba(35,35,53,0.75)), url("${image}") center/cover` }}>
 

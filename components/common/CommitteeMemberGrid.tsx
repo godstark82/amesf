@@ -1,7 +1,7 @@
-export default function CommitteeMemberGrid({ members }) {
+export default function CommitteeMemberGrid({ members }: { members: any }) {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {members.map((member, idx) => (
+            {members.map((member: any, idx: number) => (
                 <div
                     key={idx}
                     className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200"

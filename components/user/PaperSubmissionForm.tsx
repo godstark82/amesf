@@ -132,7 +132,7 @@ export default function PaperSubmissionForm({ userId, registrationId, onSuccess,
       
       // Call success callback to refresh data
       setTimeout(() => {
-        onSuccess()
+        onSuccess?.()
       }, 1500)
     } catch (error: any) {
       console.error('Error submitting paper:', error)

@@ -1,4 +1,4 @@
-export default function SectionHeader({ title }) {
+export default function SectionHeader({ title }: { title: string }) {
     return (
         <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-black mb-2">{title}</h2>
