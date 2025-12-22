@@ -14,10 +14,8 @@ const CommitteeMemberGrid = ({ members }: { members: { name: string, role: strin
 
 const technicalCommittee = [
     { name: "Dr. Pankaj", role: "IILM University, Greater Noida" },
-    { name: "Dr. A.K. Jain", role: "IILM University, Greater Noida" },
     { name: "Dr. Chhavi Pahawa", role: "IILM University, Greater Noida" },
     { name: "Dr. Pawan Soni", role: "IILM University, Greater Noida" },
-    { name: "Dr. Rajeev Kumar", role: "IILM University, Greater Noida" },
     { name: "Dr. Anupama Srivastava", role: "IILM University, Greater Noida" },
     { name: "Dr. Avdhesh Gupta", role: "IILM University, Greater Noida" },
     { name: "Dr. K.M. Bala", role: "IILM University, Greater Noida" },
@@ -28,33 +26,25 @@ const technicalCommittee = [
     { name: "Dr. Kapil Dev", role: "JD, FSL, Ghaziabad" },
     { name: "Dr. Antony George", role: "Friedrich Schiller University, Jena, Germany" },
     { name: "Dr. Ali Raza", role: "BOWIE University, USA" },
-    { name: "Dr. Manoj Kumar", role: "IILM University, Greater Noida" },
     { name: "Dr. Vinti Dhaka", role: "IILM University, Greater Noida" },
-    { name: "Dr. Sanjoy", role: "IILM University, Greater Noida" },
     { name: "Dr. Shikha", role: "IILM University, Greater Noida" },
-    { name: "Dr. Aastha", role: "IILM University, Greater Noida" },
-    { name: "Dr. Sanjeev Verma", role: "IILM University, Greater Noida" },
     { name: "Dr. Vipul Kumar", role: "IILM University, Greater Noida" },
     { name: "Dr. Manish Kumar", role: "ARSD College, DU" },
+    { name: "Dr. Suneet Kuma", role: "Senior Scientific Officer, FSL-Moradabad" },
     { name: "Prof. (Dr.) Shubham Tiwari", role: "ABES, Ghaziabad" },
     { name: "Prof. (Dr.) Kedar Singh", role: "JNU" },
     { name: "Prof. (Dr.) OP Thakur", role: "NSUT, Delhi" },
     { name: "Prof. (Dr.) Geeta Singh", role: "DTU" },
     { name: "Dr. Nupur Mathur", role: "Teri" },
-    { name: "Dr. Khushboo Gupta", role: "IILM University, Greater Noida" },
-    { name: "Dr. Mukesh Kumar", role: "IILM University, Greater Noida" },
     { name: "Dr. Ashutosh Kumar", role: "TIET" },
     { name: "Dr. Pragya Ranjan Rout", role: "NIT Jalandhar" },
     { name: "Dr. Bikash Koli Dey", role: "SRMU, Chennai" },
-    { name: "Dr. Kuldeep Malik", role: "IILM University, Greater Noida" },
     { name: "Dr. Selva Bharti", role: "SRMU, Chennai" },
     { name: "Dr. Roopam Singh", role: "VIT, Chennai" },
     { name: "Dr. Roma Chandra", role: "IILM University, Greater Noida" },
     { name: "Dr. Garima Gupta", role: "IILM University, Greater Noida" },
     { name: "Dr. Muneeb Malik", role: "IILM University, Greater Noida" },
-    { name: "Dr. Veena", role: "IILM University, Greater Noida" },
     { name: "Dr. Monu", role: "IILM University, Greater Noida" },
-    { name: "Dr. Pankaj Verma", role: "IILM University, Greater Noida" },
 ];
 
 const technicalSessionCommittee = [
@@ -153,7 +143,7 @@ const culturalCommittee = [
 ];
 
 const publicationCommittee = [
-    { name: "Prof. Narendra Kumar", role: "Committee Chair, IILM University, Greater Noida"},
+    { name: "Prof. Narendra Kumar", role: "Committee Chair, IILM University, Greater Noida" },
     { name: "Dr. Rajeev Kumar", role: "IILM University, Greater Noida" },
     { name: "Dr. Pranav Srivastava", role: "IILM University, Greater Noida" },
     { name: "Dr. Jaswinder Singh", role: "IILM University, Greater Noida" },
