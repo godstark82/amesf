@@ -51,17 +51,17 @@ export default function AdminLayout({
             // User is an admin
             setUser(currentUser)
           } else {
-            // Not an admin, redirect to home
-            router.push('/')
+            // Not an admin, redirect to login
+            router.push('/login')
           }
         } else {
-          // Admin document doesn't exist, redirect to home
-          router.push('/')
+          // Admin document doesn't exist, redirect to login
+          router.push('/login')
         }
       } catch (error) {
         console.error('Error checking admin status:', error)
-        // On error, redirect to home for security
-        router.push('/')
+        // On error, redirect to login for security
+        router.push('/login')
       } finally {
         setLoading(false)
       }
@@ -71,7 +71,7 @@ export default function AdminLayout({
       if (currentUser) {
         await checkAdminAndSetUser(currentUser)
       } else {
-        router.push('/')
+        router.push('/login')
         setLoading(false)
       }
     })

@@ -150,6 +150,14 @@ const internationalAdvisoryBoard = [
   {
     name: "Prof. (Dr.) Haitham Al Qahtani",
     role: "University of Technology, Bahrain"
+  },
+  {
+    name: "Dr. Abhishek Dubey",
+    role: "UTAS, Salalah, Sultanate of Oman"
+  },
+  {
+    name: "Dr S. K. Chaubey,",
+    role: "UTAS, Shinas, Sultanate of Oman"
   }
 ];
 
