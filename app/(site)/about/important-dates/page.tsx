@@ -8,17 +8,17 @@ const importantDates = [
     },
     {
         event: "Registration and Abstract Submission Starts",
-        date: "20 December, 2025",
+        date: "31 January, 2026",
         rowClass: "bg-gray-50"
     },
     {
         event: "Last Date of Registration without late payment",
-        date: "15 February, 2026",
+        date: "5 February, 2026",
         rowClass: "bg-gray-50"
     },
     {
         event: "Abstract submission Deadline",
-        date: "20 January, 2025",
+        date: "10 January, 2026",
         rowClass: "bg-gray-50"
     },
     {
