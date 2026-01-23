@@ -236,6 +236,7 @@ export default function AdminSubmissionsPage() {
           'Category',
           'Days Attending',
           'Paper Title',
+          'Paper URL',
           'Status'
         ])
         
@@ -251,6 +252,7 @@ export default function AdminSubmissionsPage() {
             submission.category || 'N/A',
             submission.daysAttending || 'N/A',
             submission.paperTitle || 'N/A',
+            submission.fileUrl || 'N/A',
             submission.paperStatus || 'pending'
           ])
         })
