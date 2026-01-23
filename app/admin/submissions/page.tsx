@@ -287,16 +287,16 @@ export default function AdminSubmissionsPage() {
       const worksheet = XLSX.utils.aoa_to_sheet(worksheetData)
       
       // Set column widths
-      const maxWidths = worksheetData[0].map((_, colIndex) => {
+      const maxWidths = worksheetData[0].map((_: any, colIndex: number) => {
         return Math.max(
-          ...worksheetData.map(row => {
+          ...worksheetData.map((row: any[]) => {
             const cellValue = row[colIndex]
             return cellValue ? String(cellValue).length : 10
           })
         )
       })
       
-      worksheet['!cols'] = maxWidths.map(width => ({ wch: Math.min(width + 2, 50) }))
+      worksheet['!cols'] = maxWidths.map((width: number) => ({ wch: Math.min(width + 2, 50) }))
       
       // Add worksheet to workbook
       const sheetName = exportType === 'withPapers' ? 'With Papers' : 'Without Papers'
