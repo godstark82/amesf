@@ -47,8 +47,8 @@ export default function PaperSubmissionForm({ userId, registrationId, onSuccess,
         if (!value) {
           return 'File upload is required'
         }
-        if (value instanceof File && !value.name.endsWith('.docx')) {
-          return 'Please upload a DOCX file'
+        if (value instanceof File && !value.name.endsWith('.docx') && !value.name.endsWith('.pdf')) {
+          return 'Please upload a DOCX or PDF file'
         }
         return ''
       default:
@@ -226,7 +226,7 @@ export default function PaperSubmissionForm({ userId, registrationId, onSuccess,
           <div className="space-y-2">
             <Label htmlFor="uploadedFile" className="flex items-center gap-1.5">
               <Upload className="w-3.5 h-3.5 text-muted-foreground" />
-              Upload Paper (DOCX) *
+              Upload Paper (DOCX or PDF) *
             </Label>
             <div className="relative">
               <div className="border-2 border-dashed rounded-lg p-6 bg-muted/20 hover:bg-muted/30 transition-colors">
@@ -235,7 +235,7 @@ export default function PaperSubmissionForm({ userId, registrationId, onSuccess,
                   name="uploadedFile"
                   type="file"
                   onChange={handleFileChange}
-                  accept=".docx"
+                  accept=".docx,.pdf"
                   required
                   className="cursor-pointer file:mr-4 file:px-4 file:py-2.5 file:rounded-md file:border-0 file:bg-primary file:text-primary-foreground file:cursor-pointer hover:file:bg-primary/90 transition-all duration-200 file:font-medium"
                   aria-invalid={!!errors.uploadedFile}
