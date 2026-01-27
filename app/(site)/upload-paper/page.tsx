@@ -338,6 +338,40 @@ export default function UploadPaperPage() {
             </div>
           </CardContent>
         </Card>
+        
+        {/* Payment Link */}
+        <Card className="border-none shadow-medium overflow-hidden">
+          <CardHeader className="bg-linear-to-r from-primary to-primary/90 text-white">
+            <h2 className="text-2xl font-bold">Payment Link</h2>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Institute Name</p>
+                  <p className="text-sm font-semibold text-foreground">IILM UNIVERSITY</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Branch Name</p>
+                  <p className="text-sm font-semibold text-foreground">IILM University GN</p>
+                </div>
+              </div>
+              <div className="pt-2">
+                <p className="text-sm font-medium text-muted-foreground mb-2">Form Link</p>
+                <a
+                  href="https://form.qfixonline.com/internationaladvof"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium underline transition-colors"
+                >
+                  <CreditCard className="w-4 h-4" />
+                  https://form.qfixonline.com/internationaladvof
+                </a>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Registration Fees */}
         <Card className="border-none shadow-medium overflow-hidden">
           <CardHeader className="bg-linear-to-r from-primary to-primary/90 text-white">

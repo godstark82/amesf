@@ -25,8 +25,7 @@ import {
   Building2,
   Globe,
   Phone,
-  Tag,
-  FileDown
+  Tag
 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -46,8 +45,6 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { Textarea } from '@/components/ui/textarea'
-import { saveAs } from 'file-saver'
-import * as XLSX from 'xlsx'
 
 type Submission = {
   id: string
@@ -85,9 +82,6 @@ export default function AdminSubmissionsPage() {
   const [showStatusDialog, setShowStatusDialog] = useState(false)
   const [newStatus, setNewStatus] = useState<string>('')
   const [updating, setUpdating] = useState(false)
-  const [showExportDialog, setShowExportDialog] = useState(false)
-  const [exportType, setExportType] = useState<'withPapers' | 'withoutPapers'>('withPapers')
-  const [exporting, setExporting] = useState(false)
 
   useEffect(() => {
     if (typeof window === 'undefined' || !auth) return
@@ -203,122 +197,6 @@ export default function AdminSubmissionsPage() {
     return new Date(timestamp).toLocaleString()
   }
 
-  const handleExport = async () => {
-    setExporting(true)
-    try {
-      // Filter submissions based on export type
-      let dataToExport = [...submissions]
-      
-      if (exportType === 'withPapers') {
-        dataToExport = dataToExport.filter(s => s.presentingPaper && s.paperTitle && s.paperTitle.trim() !== '')
-      } else {
-        dataToExport = dataToExport.filter(s => !s.presentingPaper || !s.paperTitle || s.paperTitle.trim() === '')
-      }
-
-      if (dataToExport.length === 0) {
-        alert(`No submissions found for ${exportType === 'withPapers' ? 'with papers' : 'without papers'}.`)
-        setExporting(false)
-        return
-      }
-
-      // Export to Excel
-      const worksheetData: any[] = []
-      
-      if (exportType === 'withPapers') {
-        // Header row for "with papers"
-        worksheetData.push([
-          'S.No',
-          'Full Name',
-          'Email',
-          'Phone',
-          'Affiliation',
-          'Country',
-          'Category',
-          'Days Attending',
-          'Paper Title',
-          'Paper URL',
-          'Status'
-        ])
-        
-        // Data rows
-        dataToExport.forEach((submission, index) => {
-          worksheetData.push([
-            index + 1,
-            submission.fullName || 'N/A',
-            submission.email || 'N/A',
-            submission.phone || 'N/A',
-            submission.affiliation || 'N/A',
-            submission.country || 'N/A',
-            submission.category || 'N/A',
-            submission.daysAttending || 'N/A',
-            submission.paperTitle || 'N/A',
-            submission.fileUrl || 'N/A',
-            submission.paperStatus || 'pending'
-          ])
-        })
-      } else {
-        // Header row for "without papers"
-        worksheetData.push([
-          'S.No',
-          'Full Name',
-          'Email',
-          'Phone',
-          'Affiliation',
-          'Country',
-          'Category',
-          'Days Attending'
-        ])
-        
-        // Data rows
-        dataToExport.forEach((submission, index) => {
-          worksheetData.push([
-            index + 1,
-            submission.fullName || 'N/A',
-            submission.email || 'N/A',
-            submission.phone || 'N/A',
-            submission.affiliation || 'N/A',
-            submission.country || 'N/A',
-            submission.category || 'N/A',
-            submission.daysAttending || 'N/A'
-          ])
-        })
-      }
-
-      // Create workbook and worksheet
-      const workbook = XLSX.utils.book_new()
-      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData)
-      
-      // Set column widths
-      const maxWidths = worksheetData[0].map((_: any, colIndex: number) => {
-        return Math.max(
-          ...worksheetData.map((row: any[]) => {
-            const cellValue = row[colIndex]
-            return cellValue ? String(cellValue).length : 10
-          })
-        )
-      })
-      
-      worksheet['!cols'] = maxWidths.map((width: number) => ({ wch: Math.min(width + 2, 50) }))
-      
-      // Add worksheet to workbook
-      const sheetName = exportType === 'withPapers' ? 'With Papers' : 'Without Papers'
-      XLSX.utils.book_append_sheet(workbook, worksheet, sheetName)
-      
-      // Generate and download
-      const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
-      const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-      const fileName = `submissions_${exportType}_${new Date().toISOString().split('T')[0]}.xlsx`
-      saveAs(blob, fileName)
-
-      setShowExportDialog(false)
-    } catch (error) {
-      console.error('Error exporting data:', error)
-      alert(`Failed to export data: ${error instanceof Error ? error.message : 'Unknown error'}`)
-    } finally {
-      setExporting(false)
-    }
-  }
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -364,14 +242,6 @@ export default function AdminSubmissionsPage() {
                   <SelectItem value="withoutPapers">Without Papers</SelectItem>
                 </SelectContent>
               </Select>
-              <Button
-                variant="outline"
-                onClick={() => setShowExportDialog(true)}
-                className="gap-2"
-              >
-                <FileDown className="w-4 h-4" />
-                Export
-              </Button>
             </div>
           </div>
         </CardContent>
@@ -776,91 +646,6 @@ export default function AdminSubmissionsPage() {
             </Button>
             <Button onClick={handleStatusUpdate} disabled={updating || !newStatus}>
               {updating ? 'Updating...' : 'Update Status'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Export Dialog */}
-      <Dialog open={showExportDialog} onOpenChange={setShowExportDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Export Submissions</DialogTitle>
-            <DialogDescription>
-              Select the type of data you want to export to Excel
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="space-y-3">
-              <Label>Export Type</Label>
-              <div className="flex flex-col gap-3">
-                <div
-                  className={`flex items-center space-x-2 p-4 border rounded-lg cursor-pointer transition-colors ${
-                    exportType === 'withPapers'
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:bg-accent'
-                  }`}
-                  onClick={() => setExportType('withPapers')}
-                >
-                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                    exportType === 'withPapers'
-                      ? 'border-primary'
-                      : 'border-muted-foreground'
-                  }`}>
-                    {exportType === 'withPapers' && (
-                      <div className="w-2 h-2 rounded-full bg-primary" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <Label className="font-semibold cursor-pointer">With Papers</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Export submissions that include paper submissions
-                    </p>
-                  </div>
-                </div>
-                <div
-                  className={`flex items-center space-x-2 p-4 border rounded-lg cursor-pointer transition-colors ${
-                    exportType === 'withoutPapers'
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:bg-accent'
-                  }`}
-                  onClick={() => setExportType('withoutPapers')}
-                >
-                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                    exportType === 'withoutPapers'
-                      ? 'border-primary'
-                      : 'border-muted-foreground'
-                  }`}>
-                    {exportType === 'withoutPapers' && (
-                      <div className="w-2 h-2 rounded-full bg-primary" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <Label className="font-semibold cursor-pointer">Without Papers</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Export submissions that do not include paper submissions
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowExportDialog(false)} disabled={exporting}>
-              Cancel
-            </Button>
-            <Button onClick={handleExport} disabled={exporting}>
-              {exporting ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Exporting...
-                </>
-              ) : (
-                <>
-                  <FileDown className="w-4 h-4 mr-2" />
-                  Export to Excel
-                </>
-              )}
             </Button>
           </DialogFooter>
         </DialogContent>
