@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { collection, query, where, getDocs, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { FileText, Download, Calendar, CheckCircle2, XCircle, Clock, Plus, Upload, Receipt } from 'lucide-react'
+import { FileText, Download, Calendar, CheckCircle2, XCircle, Clock, Plus, Upload, Receipt, CreditCard } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -226,8 +226,52 @@ export default function UserSubmissionsPage() {
                 </div>
               </div>
 
+              {/* Payment Link Section */}
+              <div className="pt-4 border-t space-y-4">
+                <div>
+                  <h4 className="text-sm font-semibold flex items-center gap-2 mb-3">
+                    <CreditCard className="w-4 h-4" />
+                    Payment Link
+                  </h4>
+                  <p className="text-xs text-muted-foreground mb-4">
+                    Complete your payment using the link below
+                  </p>
+                </div>
+                <Card className="border-none shadow-sm overflow-hidden">
+                  <CardHeader className="bg-gradient-to-r from-primary to-primary/90 text-white py-3">
+                    <h5 className="text-lg font-bold">Payment Information</h5>
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-sm font-medium text-muted-foreground mb-1">Institute Name</p>
+                          <p className="text-sm font-semibold text-foreground">IILM UNIVERSITY</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-muted-foreground mb-1">Branch Name</p>
+                          <p className="text-sm font-semibold text-foreground">IILM University GN</p>
+                        </div>
+                      </div>
+                      <div className="pt-2">
+                        <p className="text-sm font-medium text-muted-foreground mb-2">Form Link</p>
+                        <a
+                          href="https://form.qfixonline.com/internationaladvof"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium underline transition-colors"
+                        >
+                          <CreditCard className="w-4 h-4" />
+                          https://form.qfixonline.com/internationaladvof
+                        </a>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
               {/* Payment Proof Section */}
-              {registration.paperStatus === 'accepted' && (
+              {hasPaper && (
                 <div className="pt-4 border-t space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -236,7 +280,7 @@ export default function UserSubmissionsPage() {
                         Payment Proof
                       </h4>
                       <p className="text-xs text-muted-foreground mt-1">
-                        Upload payment proof for your accepted paper
+                        Upload payment proof after completing your payment
                       </p>
                     </div>
                     {!registration.paymentProofUrl && !showPaymentProofForm && (
