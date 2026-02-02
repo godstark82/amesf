@@ -45,6 +45,8 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { Textarea } from '@/components/ui/textarea'
+import * as XLSX from 'xlsx'
+import { saveAs } from 'file-saver'
 
 type Submission = {
   id: string
@@ -82,6 +84,7 @@ export default function AdminSubmissionsPage() {
   const [showStatusDialog, setShowStatusDialog] = useState(false)
   const [newStatus, setNewStatus] = useState<string>('')
   const [updating, setUpdating] = useState(false)
+  const [showExportDialog, setShowExportDialog] = useState(false)
 
   useEffect(() => {
     if (typeof window === 'undefined' || !auth) return
@@ -197,6 +200,94 @@ export default function AdminSubmissionsPage() {
     return new Date(timestamp).toLocaleString()
   }
 
+  const exportToExcel = (exportType: 'all' | 'withPapers' | 'withoutPapers') => {
+    let dataToExport = [...submissions]
+
+    // Filter based on export type
+    if (exportType === 'withPapers') {
+      dataToExport = dataToExport.filter(s => s.presentingPaper && s.paperTitle)
+    } else if (exportType === 'withoutPapers') {
+      dataToExport = dataToExport.filter(s => !s.presentingPaper || !s.paperTitle)
+    }
+
+    // Prepare data for Excel
+    const excelData = dataToExport.map((submission) => ({
+      'Full Name': submission.fullName || '',
+      'Email': submission.email || '',
+      'Phone': submission.phone || '',
+      'Affiliation': submission.affiliation || '',
+      'Country': submission.country || '',
+      'Category': submission.category || '',
+      'Days Attending': submission.daysAttending || '',
+      'Has Paper': submission.presentingPaper ? 'Yes' : 'No',
+      'Paper Title': submission.paperTitle || '',
+      'Paper Download Link': submission.fileUrl || 'N/A',
+      'Paper Status': submission.paperStatus || 'N/A',
+      'Paper Uploaded At': formatDate(submission.paperUploadedAt),
+      'Payment Proof Uploaded': submission.paymentProofUrl ? 'Yes' : 'No',
+      'Payment Proof Uploaded At': submission.paymentProofUploadedAt ? formatDate(submission.paymentProofUploadedAt) : 'N/A',
+      'Registered At': formatDate(submission.registeredAt),
+    }))
+
+    // Create workbook and worksheet
+    const worksheet = XLSX.utils.json_to_sheet(excelData)
+    const workbook = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Submissions')
+
+    // Set column widths
+    const columnWidths = [
+      { wch: 20 }, // Full Name
+      { wch: 30 }, // Email
+      { wch: 15 }, // Phone
+      { wch: 30 }, // Affiliation
+      { wch: 15 }, // Country
+      { wch: 40 }, // Category
+      { wch: 15 }, // Days Attending
+      { wch: 12 }, // Has Paper
+      { wch: 40 }, // Paper Title
+      { wch: 50 }, // Paper Download Link
+      { wch: 15 }, // Paper Status
+      { wch: 20 }, // Paper Uploaded At
+      { wch: 20 }, // Payment Proof Uploaded
+      { wch: 25 }, // Payment Proof Uploaded At
+      { wch: 20 }, // Registered At
+    ]
+    worksheet['!cols'] = columnWidths
+
+    // Add hyperlinks for paper download links
+    if (excelData.length > 0) {
+      const range = XLSX.utils.decode_range(worksheet['!ref'] || 'A1')
+      const linkColumnIndex = Object.keys(excelData[0]).indexOf('Paper Download Link')
+      
+      if (linkColumnIndex >= 0) {
+        for (let row = 1; row <= range.e.r; row++) {
+          const cellAddress = XLSX.utils.encode_cell({ r: row, c: linkColumnIndex })
+          const cell = worksheet[cellAddress]
+          if (cell && cell.v && cell.v !== 'N/A' && typeof cell.v === 'string' && cell.v.startsWith('http')) {
+            // Create hyperlink - Excel will auto-detect URLs, but we format it properly
+            cell.l = { Target: cell.v, Tooltip: 'Click to download paper' }
+            // Style as hyperlink (blue and underlined)
+            if (!worksheet['!rows']) worksheet['!rows'] = []
+            // The URL itself will be clickable in Excel
+          }
+        }
+      }
+    }
+
+    // Generate Excel file
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
+    const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+    
+    // Determine filename based on export type
+    const filename = exportType === 'all' 
+      ? `all_submissions_${new Date().toISOString().split('T')[0]}.xlsx`
+      : exportType === 'withPapers'
+      ? `submissions_with_papers_${new Date().toISOString().split('T')[0]}.xlsx`
+      : `submissions_without_papers_${new Date().toISOString().split('T')[0]}.xlsx`
+    
+    saveAs(blob, filename)
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -230,7 +321,7 @@ export default function AdminSubmissionsPage() {
                 />
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               <Select value={filter} onValueChange={(value) => setFilter(value as FilterType)}>
                 <SelectTrigger className="w-[180px]">
                   <Filter className="w-4 h-4 mr-2" />
@@ -242,6 +333,14 @@ export default function AdminSubmissionsPage() {
                   <SelectItem value="withoutPapers">Without Papers</SelectItem>
                 </SelectContent>
               </Select>
+              <Button
+                variant="outline"
+                onClick={() => setShowExportDialog(true)}
+                className="whitespace-nowrap"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Export
+              </Button>
             </div>
           </div>
         </CardContent>
@@ -355,6 +454,16 @@ export default function AdminSubmissionsPage() {
                         </Button>
                       </div>
                     )}
+                  </div>
+                </CardContent>
+              )}
+              {submission.presentingPaper && submission.paperUploadedAt && (
+                <CardContent className="pt-0">
+                  <div className="flex justify-end">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <FileText className="w-3 h-3" />
+                      <span>Submitted: {formatDate(submission.paperUploadedAt)}</span>
+                    </div>
                   </div>
                 </CardContent>
               )}
@@ -646,6 +755,69 @@ export default function AdminSubmissionsPage() {
             </Button>
             <Button onClick={handleStatusUpdate} disabled={updating || !newStatus}>
               {updating ? 'Updating...' : 'Update Status'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Export Dialog */}
+      <Dialog open={showExportDialog} onOpenChange={setShowExportDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Export Submissions</DialogTitle>
+            <DialogDescription>
+              Choose which submissions you want to export to Excel
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Export Type</Label>
+              <div className="grid gap-3">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-auto py-3"
+                  onClick={() => {
+                    exportToExcel('all')
+                    setShowExportDialog(false)
+                  }}
+                >
+                  <div className="flex flex-col items-start">
+                    <span className="font-medium">All Submissions</span>
+                    <span className="text-xs text-muted-foreground">Export all registered submissions</span>
+                  </div>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-auto py-3"
+                  onClick={() => {
+                    exportToExcel('withPapers')
+                    setShowExportDialog(false)
+                  }}
+                >
+                  <div className="flex flex-col items-start">
+                    <span className="font-medium">With Papers</span>
+                    <span className="text-xs text-muted-foreground">Export only submissions with uploaded papers</span>
+                  </div>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-auto py-3"
+                  onClick={() => {
+                    exportToExcel('withoutPapers')
+                    setShowExportDialog(false)
+                  }}
+                >
+                  <div className="flex flex-col items-start">
+                    <span className="font-medium">Without Papers</span>
+                    <span className="text-xs text-muted-foreground">Export only submissions without papers</span>
+                  </div>
+                </Button>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowExportDialog(false)}>
+              Cancel
             </Button>
           </DialogFooter>
         </DialogContent>
