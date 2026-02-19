@@ -4,7 +4,7 @@ export default function PosterGuidelines() {
     return (
         <section className="bg-[#f5f7fa] py-12">
             <div className="container mx-auto px-4">
-                <SectionHeader title="Poster Guidelines" />
+                <SectionHeader title="Format Guidelines" />
                 
                 <div className="max-w-7xl mx-auto">
                     <div className="grid lg:grid-cols-3 gap-8">
@@ -12,7 +12,19 @@ export default function PosterGuidelines() {
                         <div className="lg:col-span-2 space-y-8">
                     {/* Poster Template Structure */}
                     <div className="bg-white p-6 md:p-8 rounded-lg shadow-md">
-                        <h3 className="text-2xl font-bold text-black mb-6">Poster Template Structure</h3>
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-2xl font-bold text-black">Poster Template Structure</h3>
+                            <a 
+                                href="/downloads/AMESF%202026%20Poster%20Templet.docx"
+                                download="AMESF 2026 Poster Templet.docx"
+                                className="text-primary hover:text-primary/80 transition-colors duration-200"
+                                title="Download Word Template"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </a>
+                        </div>
                         
                         <div className="space-y-6 text-black">
                             {/* Title Section */}
@@ -77,9 +89,6 @@ export default function PosterGuidelines() {
                                             <li>Insert graphs/charts here</li>
                                             <li>Include high-resolution figures (300 dpi)</li>
                                         </ul>
-                                        <div className="mt-3 p-4 bg-gray-100 border-2 border-dashed border-gray-300 rounded text-center text-gray-500">
-                                            [Insert Figure Placeholder]
-                                        </div>
                                     </div>
 
                                     <div className="border-l-4 border-primary pl-4">
