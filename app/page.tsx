@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/home/Hero";
 import Overview from "@/components/home/Overview";
+import PosterGuidelines from "@/components/home/PosterGuidelines";
 import Tracks from "@/components/home/Tracks";
 import ImportantDates from "@/components/home/ImportantDates";
 import KeynoteSpeakers from "@/components/home/KeynoteSpeakers";
@@ -17,6 +18,7 @@ const Home = () => {
             <Hero />
             {/* <MinisterSection /> */}
             <Overview />
+            <PosterGuidelines />
             <Association />
             <Aim />
             <Objective />
