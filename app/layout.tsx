@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     template: '%s | IC-AMESF 2026'
   },
   description: 'International Conference on Advanced Materials & Engineering for Sustainable Future',
+  icons: {
+    icon: '/images/iilm/favicon.ico',
+  },
 };
 
 export default function RootLayout({
