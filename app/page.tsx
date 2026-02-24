@@ -6,6 +6,7 @@ import TopBar from "@/components/TopBar";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/home/Hero";
+import ConferenceScheduleDownload from "@/components/home/ConferenceScheduleDownload";
 import Overview from "@/components/home/Overview";
 import PosterGuidelines from "@/components/home/PosterGuidelines";
 import Tracks from "@/components/home/Tracks";
@@ -16,6 +17,7 @@ const Home = () => {
     return (
         <>
             <Hero />
+            <ConferenceScheduleDownload />
             {/* <MinisterSection /> */}
             <Overview />
             <PosterGuidelines />
