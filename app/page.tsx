@@ -8,7 +8,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/home/Hero";
 import ConferenceScheduleDownload from "@/components/home/ConferenceScheduleDownload";
 import Overview from "@/components/home/Overview";
-import PosterGuidelines from "@/components/home/PosterGuidelines";
+import ReviewProcessAndEthics from "@/components/home/ReviewProcessAndEthics";
 import Tracks from "@/components/home/Tracks";
 import ImportantDates from "@/components/home/ImportantDates";
 import KeynoteSpeakers from "@/components/home/KeynoteSpeakers";
@@ -21,7 +21,7 @@ const Home = () => {
             <ConferenceScheduleDownload />
             {/* <MinisterSection /> */}
             <Overview />
-            <PosterGuidelines />
+            <ReviewProcessAndEthics />
             <Association />
             <Aim />
             <Objective />
