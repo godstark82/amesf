@@ -57,12 +57,6 @@ const TRACKS = [
     ]
   },
   {
-    name: "Food Technology",
-    subtopics: [
-      "Nutrition and Dietetics", "Food Quality & Safety", "Packaging Technology", "Food Fortification", "Nutrigenomics"
-    ]
-  },
-  {
     name: "Biological Sciences",
     subtopics: [
       "Fermentation Technology", "Virology", "Biofuels", "Biofuels", "Environmental Biotechnology",

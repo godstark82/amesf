@@ -12,6 +12,7 @@ import PosterGuidelines from "@/components/home/PosterGuidelines";
 import Tracks from "@/components/home/Tracks";
 import ImportantDates from "@/components/home/ImportantDates";
 import KeynoteSpeakers from "@/components/home/KeynoteSpeakers";
+import Sponsors from "@/components/home/Sponsors";
 
 const Home = () => {
     return (
@@ -27,6 +28,7 @@ const Home = () => {
             <Tracks />
             <ImportantDates />
             <KeynoteSpeakers />
+            <Sponsors />
             {/* <Patners /> */}
             {/* <Highlights /> */}
             <Faq />

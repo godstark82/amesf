@@ -12,8 +12,7 @@ export default function AboutUniversityPage() {
                         <p>
                             The <b>School of Engineering</b> at IILM University prepares students to meet global industry
                             demands by fostering technical expertise, innovation, and sustainable problem-solving. It
-                            offers diverse B.Tech programs in areas such as Biotechnology, Bioinformatics, Food
-                            Technology, Civil and Sustainable Infrastructure, Robotics & AI, and ECE in collaboration
+                            offers diverse B.Tech programs in areas such as Biotechnology, Bioinformatics, Civil and Sustainable Infrastructure, Robotics & AI, and ECE in collaboration
                             with L&T.
 
                         </p>
